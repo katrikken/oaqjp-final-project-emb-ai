@@ -14,11 +14,13 @@ def index():
 def detect_emotion():
     text_to_analyze = request.args.get("textToAnalyze")
     
-    if not text_to_analyze:
-        return jsonify({"error": "No text provided"}), 400
-    
     result = emotion_detector(text_to_analyze)
-        # Format the response into a readable string
+
+    # Handle invalid/blank input
+    if result["dominant_emotion"] is None:
+        return "Invalid text! Please try again!", 400
+    
+    # Format the response into a readable string
     response_str = (
         f"For the given statement, the system response is "
         f"'anger': {result['anger']}, "
