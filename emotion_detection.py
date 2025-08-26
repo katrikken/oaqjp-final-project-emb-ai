@@ -22,11 +22,12 @@ def emotion_detector(text_to_analyze):
     input_json = {"raw_document": {"text": text_to_analyze.strip()}}
 
     response = requests.post(url, headers=headers, json=input_json)
-    response.raise_for_status()
 
     # Handle blank input (status_code = 400)
     if response.status_code == 400:
         return empty_response
+
+    response.raise_for_status()
 
     result = response.json()
     emotions = result.get("emotionPredictions", [])[0].get("emotion", {})
