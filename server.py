@@ -18,7 +18,7 @@ def detect_emotion():
 
     # Handle invalid/blank input
     if result["dominant_emotion"] is None:
-        return "Invalid text! Please try again!", 400
+        return "Invalid text! Please try again!"
     
     # Format the response into a readable string
     response_str = (
