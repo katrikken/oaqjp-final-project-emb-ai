@@ -10,15 +10,26 @@ def index():
     return render_template("index.html")
 
 # Route for emotion detection
-@app.route("/emotionDetector", methods=["POST"])
+@app.route("/emotionDetector")
 def detect_emotion():
-    text_to_analyze = request.form.get("text") or request.json.get("text")
+    text_to_analyze = request.args.get("textToAnalyze")
     
     if not text_to_analyze:
         return jsonify({"error": "No text provided"}), 400
     
     result = emotion_detector(text_to_analyze)
-    return jsonify(result)
+        # Format the response into a readable string
+    response_str = (
+        f"For the given statement, the system response is "
+        f"'anger': {result['anger']}, "
+        f"'disgust': {result['disgust']}, "
+        f"'fear': {result['fear']}, "
+        f"'joy': {result['joy']} and "
+        f"'sadness': {result['sadness']}. "
+        f"The dominant emotion is {result['dominant_emotion']}."
+    )
+
+    return response_str
 
 
 if __name__ == "__main__":
